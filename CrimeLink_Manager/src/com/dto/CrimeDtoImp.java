@@ -75,6 +75,4 @@ public class CrimeDtoImp implements CrimeDto{
 				+ ps_area + ", Date of crime = " + date + ", Crime Type = " + type;
 	}
 	
-	
-	
 }
