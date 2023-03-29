@@ -1,0 +1,26 @@
+mysql> create table crime(
+    -> crime_id int primary key auto_increment,
+    -> description varchar(250),
+    -> victim_name varchar(30),
+    -> ps_area varchar(50) not null,
+    -> c_date date not null,
+    -> type varchar(30) );
+    
+
+    
+create table criminal (
+    -> criminal_id int primary key auto_increment,
+    -> name varchar(30),
+    -> dob date,
+    -> gender varchar(10),
+    -> identifying_mark varchar(50),
+    -> first_arrest_date date,
+    -> arrested_from_ps_area varchar(50) );
+    
+    
+mysql> create table link (
+    -> crime_id int,
+    -> criminal_id int,
+    -> primary key (crime_id, criminal_id),
+    -> foreign key (crime_id) references crime(crime_id),
+    -> foreign key (criminal_id) references criminal(criminal_id) );
