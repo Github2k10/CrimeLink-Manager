@@ -68,6 +68,12 @@ public class CrimeDtoImp implements CrimeDto{
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		return "Crime Crime id = " + crime_id + ", Description = " + desc + ", Victim name = " + victim_name + ", Polish Static area = "
+				+ ps_area + ", Date of crime = " + date + ", Crime Type = " + type;
+	}
 	
 	
 	
