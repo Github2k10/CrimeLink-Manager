@@ -20,6 +20,55 @@ public class CrimeDtoImp implements CrimeDto{
 		this.date = date;
 		this.type = type;
 	}
+
+	public int getCrime_id() {
+		return crime_id;
+	}
+
+	public void setCrime_id(int crime_id) {
+		this.crime_id = crime_id;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getVictim_name() {
+		return victim_name;
+	}
+
+	public void setVictim_name(String victim_name) {
+		this.victim_name = victim_name;
+	}
+
+	public String getPs_area() {
+		return ps_area;
+	}
+
+	public void setPs_area(String ps_area) {
+		this.ps_area = ps_area;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	
 	
 }
