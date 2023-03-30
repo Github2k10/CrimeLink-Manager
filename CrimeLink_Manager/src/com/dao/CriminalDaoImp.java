@@ -76,13 +76,61 @@ public class CriminalDaoImp implements CriminalDao{
 
 	@Override
 	public boolean assignCrime(int crime_id, int criminal_id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "insert into offender values (?, ?);";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, criminal_id);
+			statement.setInt(2, crime_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public boolean removeCrime(int crime_d, int criminal_id) {
-		// TODO Auto-generated method stub
+	public boolean removeCrime(int crime_id, int criminal_id) {
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "delete from offender where criminal_id = ? and crime_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, criminal_id);
+			statement.setInt(2, crime_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
