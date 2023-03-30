@@ -3,13 +3,28 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.dto.CrimeDto;
 
 public class CrimeDaoImp implements CrimeDao{
+	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
+		if(set.isBeforeFirst() && set.getRow() == 0) {
+			return true;
+		}
+		
+		return false;
+	}
 	
-	public CrimeDaoImp() {}
+	private void showList(ResultSet set) throws SQLException {
+		System.out.println();
+		while(set.next()) {
+			System.out.println("Police Station: " + set.getString(1) + ", Total no. of crime: " + set.getInt(2));
+		}
+		
+		System.out.println();
+	}
 
 	@Override
 	public boolean addCrime(CrimeDto crime) {
@@ -112,7 +127,20 @@ public class CrimeDaoImp implements CrimeDao{
 		try {
 			connection = ConnectToDatabase.makeConnection();
 			
-			String query = "select * from crime where";
+			String query = "select ps_area, count(*) from crime where c_date >= ? and c_date <= ? group by ps_area";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setDate(1, start);
+			statement.setDate(2, end);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				
+			}
+			
+			showList(set);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
