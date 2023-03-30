@@ -10,4 +10,6 @@ public interface CriminalDao {
 	public boolean assignCrime(int crime_id, int criminal_id);
 	public boolean removeCrime(int crime_d, int criminal_id);
 	public boolean deleteCriminal(int criminal_id);
+	public CriminalDto searchCriminalByName(String name);
+	public CriminalDto searchCriminalByDescription(String desc);
 }
