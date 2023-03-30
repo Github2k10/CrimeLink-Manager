@@ -43,7 +43,35 @@ public class CriminalDaoImp implements CriminalDao{
 	@Override
 	public boolean updateCriminal(int criminal_id, String name, Date date, String gender, String mark,
 			Date first_arrest, String arrestArea) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "update table crime set name = ?, dob = ?, gender = ?, identifying_mark = ?, first_arrest_date = ?, arrested_from_ps_area = ? where criminal_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, name);
+			statement.setDate(2, date);
+			statement.setString(3, gender);
+			statement.setString(4, mark);
+			statement.setDate(5, first_arrest);
+			statement.setString(6, arrestArea);
+			statement.setInt(7, criminal_id);
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return false;
 	}
 
