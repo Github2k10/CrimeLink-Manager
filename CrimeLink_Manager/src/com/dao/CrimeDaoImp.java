@@ -156,8 +156,37 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public void showTotalCrimeForDateRange(Date start, Date end) {
-		// TODO Auto-generated method stub
+	public void showTotalCrimeForType(Date start, Date end) {
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select type, count(*) from crime where c_date >= ? and c_date <= ? group by type";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setDate(1, start);
+			statement.setDate(2, end);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				
+			}
+			
+			showList(set);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
