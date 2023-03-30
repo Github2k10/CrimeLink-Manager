@@ -67,7 +67,6 @@ public class CriminalDaoImp implements CriminalDao{
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
