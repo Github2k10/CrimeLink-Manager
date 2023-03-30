@@ -136,7 +136,30 @@ public class CriminalDaoImp implements CriminalDao{
 
 	@Override
 	public boolean deleteCriminal(int criminal_id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "delete from criminal where criminal_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, criminal_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
