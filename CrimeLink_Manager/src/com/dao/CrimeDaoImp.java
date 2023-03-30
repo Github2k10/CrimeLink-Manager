@@ -43,19 +43,87 @@ public class CrimeDaoImp implements CrimeDao{
 
 	@Override
 	public boolean updateCrime(int crime_id, String desc, String name, String area, Date date, String type) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "update table crime set description = ?, victim_name =?, ps_area = ?, c_date = ?, type = ? where crime_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, desc);
+			statement.setString(2, name);
+			statement.setString(3, area);
+			statement.setDate(4, date);
+			statement.setString(5, type);
+			statement.setInt(6, crime_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean deleteCrime(int crime_id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "delete from crime where crime_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, crime_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public void showTotalCrimeForEachPS() {
-		// TODO Auto-generated method stub
+	public void showTotalCrimeForEachPS(Date start, Date end) {
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from crime where";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
