@@ -18,9 +18,9 @@ create table criminal (
     -> arrested_from_ps_area varchar(50) );
     
     
-mysql> create table link (
-    -> crime_id int,
+mysql> create table link(
     -> criminal_id int,
-    -> primary key (crime_id, criminal_id),
-    -> foreign key (crime_id) references crime(crime_id),
-    -> foreign key (criminal_id) references criminal(criminal_id) );
+    -> crime_id int,
+    -> primary key(criminal_id, crime_id),
+    -> foreign key (criminal_id) references criminal(criminal_id),
+    -> foreign key (crime_id) references crime(crime_id) );

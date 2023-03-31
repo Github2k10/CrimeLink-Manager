@@ -5,8 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.dto.CrimeDto;
+import com.dto.CrimeDtoImp;
 
 public class CrimeDaoImp implements CrimeDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
@@ -24,6 +27,25 @@ public class CrimeDaoImp implements CrimeDao{
 		}
 		
 		System.out.println();
+	}
+	
+	private List<CrimeDto> getList(ResultSet set) throws SQLException{
+		List<CrimeDto> list = new ArrayList<>();
+		
+		while(set.next()) {
+			CrimeDto dto = new CrimeDtoImp();
+			
+			dto.setCrime_id(set.getInt(1));
+			dto.setDesc(set.getString(2));
+			dto.setVictim_name(set.getString(3));
+			dto.setPs_area(set.getString(4));
+			dto.setDate(set.getDate(5));
+			dto.setType(set.getString(6));
+			
+			list.add(dto);
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -188,6 +210,40 @@ public class CrimeDaoImp implements CrimeDao{
 			}
 		}
 		
+	}
+
+	@Override
+	public List<CrimeDto> searchCrimeByDescription(String desc) {
+		Connection connection = null;
+		List<CrimeDto> list = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from criminal where ";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				
+			}
+			
+			list = getList(set);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
 	}
 
 }

@@ -3,12 +3,42 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.dto.CriminalDto;
+import com.dto.CriminalDtoImp;
 
 public class CriminalDaoImp implements CriminalDao{
-	public CriminalDaoImp() {}
+	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
+		if(set.isBeforeFirst() && set.getRow() == 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private List<CriminalDto> getList(ResultSet set) throws SQLException{
+		List<CriminalDto> list = new ArrayList<>();
+		
+		while(set.next()) {
+			CriminalDto dto = new CriminalDtoImp();
+			
+			dto.setCriminal_id(set.getInt(1));
+			dto.setName(set.getString(1));
+			dto.setDob(set.getDate(3));
+			dto.setGender(set.getString(4));
+			dto.setIdentifyingMark(set.getString(5));
+			dto.setDatefirstArrestDate(set.getDate(6));
+			dto.setArrestedPS(set.getString(7));
+			
+			list.add(dto);
+		}
+		
+		return list;
+	}
 
 	@Override
 	public boolean addCriminal(CriminalDto criminal) {
@@ -76,32 +106,126 @@ public class CriminalDaoImp implements CriminalDao{
 
 	@Override
 	public boolean assignCrime(int crime_id, int criminal_id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "insert into offender values (?, ?);";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, criminal_id);
+			statement.setInt(2, crime_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public boolean removeCrime(int crime_d, int criminal_id) {
-		// TODO Auto-generated method stub
+	public boolean removeCrime(int crime_id, int criminal_id) {
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "delete from offender where criminal_id = ? and crime_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, criminal_id);
+			statement.setInt(2, crime_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteCriminal(int criminal_id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "delete from criminal where criminal_id = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, criminal_id);
+			
+			statement.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public CriminalDto searchCriminalByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CriminalDto searchCriminalByDescription(String desc) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CriminalDto> searchCriminalByName(String name) {
+		Connection connection = null;
+		List<CriminalDto> list = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from criminal where name = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				
+			}
+			
+			list = getList(set);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
 	}
 
 }
