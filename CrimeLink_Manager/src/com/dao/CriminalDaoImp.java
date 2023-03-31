@@ -3,12 +3,31 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.dto.CriminalDto;
 
 public class CriminalDaoImp implements CriminalDao{
-	public CriminalDaoImp() {}
+	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
+		if(set.isBeforeFirst() && set.getRow() == 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private List<CriminalDto> getList(ResultSet set) throws SQLException{
+		List<CriminalDto> list = new ArrayList<>();
+		
+		while(set.next()) {
+			
+		}
+		
+		return list;
+	}
 
 	@Override
 	public boolean addCriminal(CriminalDto criminal) {
@@ -164,8 +183,37 @@ public class CriminalDaoImp implements CriminalDao{
 	}
 
 	@Override
-	public CriminalDto searchCriminalByName(String name) {
-		// TODO Auto-generated method stub
+	public List<CriminalDto> searchCriminalByName(String name) {
+		Connection connection = null;
+		List<CriminalDto> list = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from criminal where name = ?";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				
+			}
+			
+			list = getList(set);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return null;
 	}
 
