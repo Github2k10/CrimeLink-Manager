@@ -10,7 +10,7 @@ import com.exception.SomeThingWentWrongException;
 
 public interface CriminalDao {
 	public boolean addCriminal(CriminalDto criminal) throws InvalidDataException, SomeThingWentWrongException;
-	public boolean updateCriminal(int criminal_id, String name, Date date, String gender, String mark, Date first_arrest, String arrestArea) throws CriminalNotFoundException;
+	public boolean updateCriminal(int criminal_id, String name, Date date, String gender, String mark, Date first_arrest, String arrestArea) throws CriminalNotFoundException, SomeThingWentWrongException;
 	public boolean assignCrime(int crime_id, int criminal_id);
 	public boolean removeCrime(int crime_d, int criminal_id);
 	public boolean deleteCriminal(int criminal_id);

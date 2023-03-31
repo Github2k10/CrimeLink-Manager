@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.dto.CriminalDto;
 import com.dto.CriminalDtoImp;
+import com.exception.CriminalNotFoundException;
 import com.exception.InvalidDataException;
 import com.exception.SomeThingWentWrongException;
 
@@ -77,7 +78,7 @@ public class CriminalDaoImp implements CriminalDao{
 
 	@Override
 	public boolean updateCriminal(int criminal_id, String name, Date date, String gender, String mark,
-			Date first_arrest, String arrestArea) {
+			Date first_arrest, String arrestArea) throws CriminalNotFoundException {
 		Connection connection = null;
 		
 		try {
@@ -94,7 +95,13 @@ public class CriminalDaoImp implements CriminalDao{
 			statement.setString(6, arrestArea);
 			statement.setInt(7, criminal_id);
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n == 0) {
+				throw new CriminalNotFoundException();
+			}
+			
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
