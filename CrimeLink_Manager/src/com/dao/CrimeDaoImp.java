@@ -10,6 +10,9 @@ import java.util.List;
 
 import com.dto.CrimeDto;
 import com.dto.CrimeDtoImp;
+import com.exception.CrimeNotFoundException;
+import com.exception.InvalidDataException;
+import com.exception.SomeThingWentWrongExceptioni;
 
 public class CrimeDaoImp implements CrimeDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
@@ -49,12 +52,12 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public boolean addCrime(CrimeDto crime) {
+	public boolean addCrime(CrimeDto crime) throws SomeThingWentWrongExceptioni, InvalidDataException {
 		Connection connection = null;
 		
 		try {
 			connection = ConnectToDatabase.makeConnection();
-			String query = "inert into crime (description, victim_name, ps_area, c_date, type) values (?, ?, ?, ?, ?);";
+			String query = "insert into crime (description, victim_name, ps_area, c_date, type) values (?, ?, ?, ?, ?);";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, crime.getDesc());
@@ -63,29 +66,32 @@ public class CrimeDaoImp implements CrimeDao{
 			statement.setDate(4, crime.getDate());
 			statement.setString(5, crime.getType());
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n <= 0) {
+				throw new InvalidDataException();
+			}
 			
 			return true;
 		} catch (SQLException e) {
-			
+			throw new SomeThingWentWrongExceptioni();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				
+				throw new SomeThingWentWrongExceptioni();
 			}
 		}
-		return false;
 	}
 
 	@Override
-	public boolean updateCrime(int crime_id, String desc, String name, String area, Date date, String type) {
+	public boolean updateCrime(int crime_id, String desc, String name, String area, Date date, String type) throws CrimeNotFoundException, InvalidDataException, SomeThingWentWrongExceptioni {
 		Connection connection = null;
 		
 		try {
 			connection = ConnectToDatabase.makeConnection();
 			
-			String query = "update table crime set description = ?, victim_name =?, ps_area = ?, c_date = ?, type = ? where crime_id = ?";
+			String query = "update crime set description = ?, victim_name = ?, ps_area = ?, c_date = ?, type = ? where crime_id = ?";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, desc);
@@ -95,26 +101,26 @@ public class CrimeDaoImp implements CrimeDao{
 			statement.setString(5, type);
 			statement.setInt(6, crime_id);
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
 			
+			if(n <= 0) {
+				throw new CrimeNotFoundException();
+			}
+			System.out.println("done");
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InvalidDataException();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new SomeThingWentWrongExceptioni();
 			}
 		}
-		
-		return false;
 	}
 
 	@Override
-	public boolean deleteCrime(int crime_id) {
+	public boolean deleteCrime(int crime_id) throws CrimeNotFoundException, SomeThingWentWrongExceptioni {
 		Connection connection = null;
 		
 		try {
@@ -125,25 +131,26 @@ public class CrimeDaoImp implements CrimeDao{
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setInt(1, crime_id);
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n == 0) {
+				throw new CrimeNotFoundException();
+			}
 			
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SomeThingWentWrongExceptioni();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new SomeThingWentWrongExceptioni();
 			}
 		}
-		return false;
 	}
 
 	@Override
-	public void showTotalCrimeForEachPS(Date start, Date end) {
+	public void showTotalCrimeForEachPS(Date start, Date end) throws CrimeNotFoundException {
 		Connection connection = null;
 		
 		try {
@@ -158,7 +165,7 @@ public class CrimeDaoImp implements CrimeDao{
 			ResultSet set = statement.executeQuery();
 			
 			if(isResultSetEmpty(set)) {
-				
+				throw new CrimeNotFoundException();
 			}
 			
 			showList(set);
