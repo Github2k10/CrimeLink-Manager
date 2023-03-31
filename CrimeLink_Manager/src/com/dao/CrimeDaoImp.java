@@ -150,7 +150,7 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public void showTotalCrimeForEachPS(Date start, Date end) throws CrimeNotFoundException {
+	public void showTotalCrimeForEachPS(Date start, Date end) throws CrimeNotFoundException, SomeThingWentWrongExceptioni {
 		Connection connection = null;
 		
 		try {
@@ -171,14 +171,12 @@ public class CrimeDaoImp implements CrimeDao{
 			showList(set);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SomeThingWentWrongExceptioni();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new SomeThingWentWrongExceptioni();
 			}
 		}
 		
