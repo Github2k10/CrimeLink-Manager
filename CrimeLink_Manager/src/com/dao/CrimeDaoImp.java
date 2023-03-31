@@ -34,6 +34,15 @@ public class CrimeDaoImp implements CrimeDao{
 		
 		while(set.next()) {
 			CrimeDto dto = new CrimeDtoImp();
+			
+			dto.setCrime_id(set.getInt(1));
+			dto.setDesc(set.getString(2));
+			dto.setVictim_name(set.getString(3));
+			dto.setPs_area(set.getString(4));
+			dto.setDate(set.getDate(5));
+			dto.setType(set.getString(6));
+			
+			list.add(dto);
 		}
 		
 		return list;
