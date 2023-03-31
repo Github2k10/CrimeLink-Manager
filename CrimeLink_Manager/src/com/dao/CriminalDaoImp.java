@@ -115,7 +115,7 @@ public class CriminalDaoImp implements CriminalDao{
 	}
 
 	@Override
-	public boolean assignCrime(int crime_id, int criminal_id) {
+	public boolean assignCrime(int crime_id, int criminal_id) throws CriminalNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
@@ -127,21 +127,22 @@ public class CriminalDaoImp implements CriminalDao{
 			statement.setInt(1, criminal_id);
 			statement.setInt(2, crime_id);
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n == 0) {
+				throw new CriminalNotFoundException();
+			}
 			
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SomeThingWentWrongException();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new SomeThingWentWrongException();
 			}
 		}
-		return false;
 	}
 
 	@Override
