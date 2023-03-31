@@ -12,7 +12,7 @@ public class MainUI {
 	public static void main(String[] args) {
 		CrimeDao dao = new CrimeDaoImp();
 		
-		dao.updateCrime(4, "bank robbery", "ron", "kolkata", Date.valueOf("0214-01-01"), "robbery");
+		dao.deleteCrime(3);
 	}
 
 }

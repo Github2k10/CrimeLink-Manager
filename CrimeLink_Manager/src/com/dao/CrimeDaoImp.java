@@ -52,7 +52,7 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public boolean addCrime(CrimeDto crime) throws SomeThingWentWrongExceptioni {
+	public boolean addCrime(CrimeDto crime) throws SomeThingWentWrongExceptioni, InvalidDataException {
 		Connection connection = null;
 		
 		try {
@@ -66,7 +66,11 @@ public class CrimeDaoImp implements CrimeDao{
 			statement.setDate(4, crime.getDate());
 			statement.setString(5, crime.getType());
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n <= 0) {
+				throw new InvalidDataException();
+			}
 			
 			return true;
 		} catch (SQLException e) {
@@ -116,7 +120,7 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public boolean deleteCrime(int crime_id) {
+	public boolean deleteCrime(int crime_id) throws CrimeNotFoundException, SomeThingWentWrongExceptioni {
 		Connection connection = null;
 		
 		try {
@@ -127,25 +131,26 @@ public class CrimeDaoImp implements CrimeDao{
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setInt(1, crime_id);
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n == 0) {
+				throw new CrimeNotFoundException();
+			}
 			
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SomeThingWentWrongExceptioni();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new SomeThingWentWrongExceptioni();
 			}
 		}
-		return false;
 	}
 
 	@Override
-	public void showTotalCrimeForEachPS(Date start, Date end) {
+	public void showTotalCrimeForEachPS(Date start, Date end) throws CrimeNotFoundException {
 		Connection connection = null;
 		
 		try {
@@ -160,7 +165,7 @@ public class CrimeDaoImp implements CrimeDao{
 			ResultSet set = statement.executeQuery();
 			
 			if(isResultSetEmpty(set)) {
-				
+				throw new CrimeNotFoundException();
 			}
 			
 			showList(set);
