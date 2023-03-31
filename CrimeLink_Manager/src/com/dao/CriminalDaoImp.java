@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.dto.CriminalDto;
 import com.dto.CriminalDtoImp;
+import com.exception.InvalidDataException;
+import com.exception.SomeThingWentWrongException;
 
 public class CriminalDaoImp implements CriminalDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
@@ -41,7 +43,7 @@ public class CriminalDaoImp implements CriminalDao{
 	}
 
 	@Override
-	public boolean addCriminal(CriminalDto criminal) {
+	public boolean addCriminal(CriminalDto criminal) throws InvalidDataException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
@@ -55,19 +57,22 @@ public class CriminalDaoImp implements CriminalDao{
 			statement.setDate(4, criminal.getDatefirstArrestDate());
 			statement.setString(4, criminal.getArrestedPS());
 			
-			statement.executeUpdate();
+			int n = statement.executeUpdate();
+			
+			if(n == 0) {
+				throw new InvalidDataException();
+			}
 			
 			return true;
 		} catch (SQLException e) {
-			
+			throw new SomeThingWentWrongException();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				
+				throw new SomeThingWentWrongException();
 			}
 		}
-		return false;
 	}
 
 	@Override
