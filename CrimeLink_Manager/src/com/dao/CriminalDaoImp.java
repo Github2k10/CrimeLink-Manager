@@ -78,7 +78,7 @@ public class CriminalDaoImp implements CriminalDao{
 
 	@Override
 	public boolean updateCriminal(int criminal_id, String name, Date date, String gender, String mark,
-			Date first_arrest, String arrestArea) throws CriminalNotFoundException {
+			Date first_arrest, String arrestArea) throws CriminalNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
@@ -103,17 +103,15 @@ public class CriminalDaoImp implements CriminalDao{
 			
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SomeThingWentWrongException();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new SomeThingWentWrongException();
 			}
 		}
 		
-		return false;
 	}
 
 	@Override
