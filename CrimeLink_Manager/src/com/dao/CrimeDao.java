@@ -1,6 +1,7 @@
 package com.dao;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.dto.CrimeDto;
 
@@ -10,4 +11,5 @@ public interface CrimeDao {
 	public boolean deleteCrime(int crime_id);
 	public void showTotalCrimeForEachPS(Date start, Date end);
 	public void showTotalCrimeForType(Date start, Date end);
+	public List<CrimeDto> searchCrimeByDescription(String desc);
 }

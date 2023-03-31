@@ -228,10 +228,4 @@ public class CriminalDaoImp implements CriminalDao{
 		return list;
 	}
 
-	@Override
-	public CriminalDto searchCriminalByDescription(String desc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

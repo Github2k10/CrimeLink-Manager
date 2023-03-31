@@ -12,5 +12,4 @@ public interface CriminalDao {
 	public boolean removeCrime(int crime_d, int criminal_id);
 	public boolean deleteCriminal(int criminal_id);
 	public List<CriminalDto> searchCriminalByName(String name);
-	public CriminalDto searchCriminalByDescription(String desc);
 }

@@ -5,8 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.dto.CrimeDto;
+import com.dto.CrimeDtoImp;
 
 public class CrimeDaoImp implements CrimeDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
@@ -24,6 +27,16 @@ public class CrimeDaoImp implements CrimeDao{
 		}
 		
 		System.out.println();
+	}
+	
+	private List<CrimeDto> getList(ResultSet set) throws SQLException{
+		List<CrimeDto> list = new ArrayList<>();
+		
+		while(set.next()) {
+			CrimeDto dto = new CrimeDtoImp();
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -188,6 +201,40 @@ public class CrimeDaoImp implements CrimeDao{
 			}
 		}
 		
+	}
+
+	@Override
+	public List<CrimeDto> searchCrimeByDescription(String desc) {
+		Connection connection = null;
+		List<CrimeDto> list = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from criminal where ";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				
+			}
+			
+			list = getList(set);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
 	}
 
 }
