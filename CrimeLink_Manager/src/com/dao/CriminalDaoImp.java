@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dto.CriminalDto;
+import com.dto.CriminalDtoImp;
 
 public class CriminalDaoImp implements CriminalDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
@@ -23,7 +24,17 @@ public class CriminalDaoImp implements CriminalDao{
 		List<CriminalDto> list = new ArrayList<>();
 		
 		while(set.next()) {
+			CriminalDto dto = new CriminalDtoImp();
 			
+			dto.setCriminal_id(set.getInt(1));
+			dto.setName(set.getString(1));
+			dto.setDob(set.getDate(3));
+			dto.setGender(set.getString(4));
+			dto.setIdentifyingMark(set.getString(5));
+			dto.setDatefirstArrestDate(set.getDate(6));
+			dto.setArrestedPS(set.getString(7));
+			
+			list.add(dto);
 		}
 		
 		return list;
@@ -214,7 +225,7 @@ public class CriminalDaoImp implements CriminalDao{
 			}
 		}
 		
-		return null;
+		return list;
 	}
 
 	@Override

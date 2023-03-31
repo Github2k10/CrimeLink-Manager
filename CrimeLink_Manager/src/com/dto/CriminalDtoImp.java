@@ -2,7 +2,7 @@ package com.dto;
 
 import java.sql.Date;
 
-public class CriminalDtoImp {
+public class CriminalDtoImp implements CriminalDto{
 		private int criminal_id;
 		private String name;
 		private Date dob;
