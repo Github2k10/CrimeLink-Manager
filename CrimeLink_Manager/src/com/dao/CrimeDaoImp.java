@@ -16,7 +16,7 @@ import com.exception.SomeThingWentWrongException;
 
 public class CrimeDaoImp implements CrimeDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
-		if(set.isBeforeFirst() && set.getRow() == 0) {
+		if(!set.isBeforeFirst() && set.getRow() == 0) {
 			return true;
 		}
 		
@@ -150,17 +150,17 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public void showTotalCrimeForEachPS(Date start, Date end) throws CrimeNotFoundException, SomeThingWentWrongException {
+	public void showTotalCrimeForEachPS(String start, String end) throws CrimeNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
 			connection = ConnectToDatabase.makeConnection();
 			
-			String query = "select ps_area, count(*) from crime where c_date >= ? and c_date <= ? group by ps_area";
+			String query = "select ps_area, count(*) from crime where year(c_date) >= ? and year(c_date) <= ? group by ps_area";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setDate(1, start);
-			statement.setDate(2, end);
+			statement.setString(1, start);
+			statement.setString(2, end);
 			
 			ResultSet set = statement.executeQuery();
 			
@@ -183,17 +183,17 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 
 	@Override
-	public void showTotalCrimeForType(Date start, Date end) throws CrimeNotFoundException, SomeThingWentWrongException {
+	public void showTotalCrimeForTypeAndDateRange(String start, String end) throws CrimeNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
 			connection = ConnectToDatabase.makeConnection();
 			
-			String query = "select type, count(*) from crime where c_date >= ? and c_date <= ? group by type";
+			String query = "select type, count(*) from crime where year(c_date) >= ? and year(c_date) <= ? group by type";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setDate(1, start);
-			statement.setDate(2, end);
+			statement.setString(1, start);
+			statement.setString(2, end);
 			
 			ResultSet set = statement.executeQuery();
 			
@@ -223,7 +223,7 @@ public class CrimeDaoImp implements CrimeDao{
 		try {
 			connection = ConnectToDatabase.makeConnection();
 			
-			String query = "select * from criminal where ";
+			String query = "select * from crime where description like '%"+ desc +"%'";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
 			
@@ -235,6 +235,7 @@ public class CrimeDaoImp implements CrimeDao{
 			
 			list = getList(set);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SomeThingWentWrongException();
 		} finally {
 			try {

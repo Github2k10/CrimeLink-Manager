@@ -14,5 +14,5 @@ public interface CriminalDao {
 	public boolean assignCrime(int crime_id, int criminal_id) throws CriminalNotFoundException, SomeThingWentWrongException;
 	public boolean removeCrime(int crime_d, int criminal_id) throws CriminalNotFoundException, SomeThingWentWrongException;
 	public boolean deleteCriminal(int criminal_id) throws CriminalNotFoundException, SomeThingWentWrongException;
-	public List<CriminalDto> searchCriminalByName(String name);
+	public List<CriminalDto> searchCriminalByName(String name) throws CriminalNotFoundException, SomeThingWentWrongException;
 }

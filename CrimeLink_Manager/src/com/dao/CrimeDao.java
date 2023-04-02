@@ -12,7 +12,7 @@ public interface CrimeDao {
 	public boolean addCrime(CrimeDto crime) throws SomeThingWentWrongException, InvalidDataException;
 	public boolean updateCrime(int crime_id, String desc, String name, String area, Date date, String type) throws CrimeNotFoundException, InvalidDataException, SomeThingWentWrongException;
 	public boolean deleteCrime(int crime_id) throws CrimeNotFoundException, SomeThingWentWrongException;
-	public void showTotalCrimeForEachPS(Date start, Date end) throws CrimeNotFoundException, SomeThingWentWrongException;
-	public void showTotalCrimeForType(Date start, Date end) throws  SomeThingWentWrongException, CrimeNotFoundException;
+	public void showTotalCrimeForEachPS(String start, String end) throws CrimeNotFoundException, SomeThingWentWrongException;
+	public void showTotalCrimeForTypeAndDateRange(String start, String end) throws  SomeThingWentWrongException, CrimeNotFoundException;
 	public List<CrimeDto> searchCrimeByDescription(String desc) throws CrimeNotFoundException, SomeThingWentWrongException;
 }

@@ -16,7 +16,7 @@ import com.exception.SomeThingWentWrongException;
 
 public class CriminalDaoImp implements CriminalDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
-		if(set.isBeforeFirst() && set.getRow() == 0) {
+		if(!set.isBeforeFirst() && set.getRow() == 0) {
 			return true;
 		}
 		
@@ -49,14 +49,15 @@ public class CriminalDaoImp implements CriminalDao{
 		
 		try {
 			connection = ConnectToDatabase.makeConnection();
-			String query = "inert into criminal (name, dob, gender, identifying_mark, first_arrest_date, arrested_from_ps_area  values (?, ?, ?, ?, ?, ?);";
+			String query = "insert into criminal (name, dob, gender, identifying_mark, first_arrest_date, arrested_from_ps_area)  values (?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, criminal.getName());
 			statement.setDate(2, criminal.getDob());
 			statement.setString(3, criminal.getGender());
-			statement.setDate(4, criminal.getDatefirstArrestDate());
-			statement.setString(4, criminal.getArrestedPS());
+			statement.setString(4, criminal.getIdentifyingMark());
+			statement.setDate(5, criminal.getDatefirstArrestDate());
+			statement.setString(6, criminal.getArrestedPS());
 			
 			int n = statement.executeUpdate();
 			
@@ -84,7 +85,7 @@ public class CriminalDaoImp implements CriminalDao{
 		try {
 			connection = ConnectToDatabase.makeConnection();
 			
-			String query = "update table crime set name = ?, dob = ?, gender = ?, identifying_mark = ?, first_arrest_date = ?, arrested_from_ps_area = ? where criminal_id = ?";
+			String query = "update criminal set name = ?, dob = ?, gender = ?, identifying_mark = ?, first_arrest_date = ?, arrested_from_ps_area = ? where criminal_id = ?";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, name);
@@ -115,7 +116,7 @@ public class CriminalDaoImp implements CriminalDao{
 	}
 
 	@Override
-	public boolean assignCrime(int crime_id, int criminal_id) throws CriminalNotFoundException, SomeThingWentWrongException {
+	public boolean assignCrime(int criminal_id, int crime_id) throws CriminalNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
@@ -135,6 +136,7 @@ public class CriminalDaoImp implements CriminalDao{
 			
 			return true;
 		} catch (SQLException e) {
+			System.out.println("Either criminal id: " + criminal_id + " or crime id: " + crime_id + " not avilabile");
 			throw new SomeThingWentWrongException();
 		} finally {
 			try {
@@ -146,7 +148,7 @@ public class CriminalDaoImp implements CriminalDao{
 	}
 
 	@Override
-	public boolean removeCrime(int crime_id, int criminal_id) throws CriminalNotFoundException, SomeThingWentWrongException {
+	public boolean removeCrime(int criminal_id, int crime_id) throws CriminalNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		
 		try {
@@ -207,7 +209,7 @@ public class CriminalDaoImp implements CriminalDao{
 	}
 
 	@Override
-	public List<CriminalDto> searchCriminalByName(String name) {
+	public List<CriminalDto> searchCriminalByName(String name) throws CriminalNotFoundException, SomeThingWentWrongException {
 		Connection connection = null;
 		List<CriminalDto> list = null;
 		
@@ -217,24 +219,23 @@ public class CriminalDaoImp implements CriminalDao{
 			String query = "select * from criminal where name = ?";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, name);
 			
 			ResultSet set = statement.executeQuery();
 			
 			if(isResultSetEmpty(set)) {
-				
+				throw new CriminalNotFoundException(name);
 			}
 			
 			list = getList(set);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SomeThingWentWrongException();
 		} finally {
 			try {
 				ConnectToDatabase.closeConnection(connection);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new SomeThingWentWrongException();
 			}
 		}
 		
