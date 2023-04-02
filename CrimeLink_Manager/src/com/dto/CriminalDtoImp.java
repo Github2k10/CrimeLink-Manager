@@ -23,6 +23,16 @@ public class CriminalDtoImp implements CriminalDto{
 			this.datefirstArrestDate = datefirstArrestDate;
 			this.arrestedPS = arrestedPS;
 		}
+		
+		public CriminalDtoImp(String name, Date dob, String gender, String identifyingMark,
+				Date datefirstArrestDate, String arrestedPS) {
+			this.name = name;
+			this.dob = dob;
+			this.gender = gender;
+			this.identifyingMark = identifyingMark;
+			this.datefirstArrestDate = datefirstArrestDate;
+			this.arrestedPS = arrestedPS;
+		}
 
 		public int getCriminal_id() {
 			return criminal_id;
