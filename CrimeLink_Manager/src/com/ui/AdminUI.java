@@ -1,13 +1,16 @@
 package com.ui;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import com.dao.CrimeDao;
 import com.dao.CrimeDaoImp;
 import com.dao.CriminalDao;
 import com.dao.CriminalDaoImp;
+import com.dto.CrimeDto;
 import com.dto.CrimeDtoImp;
+import com.dto.CriminalDto;
 import com.dto.CriminalDtoImp;
 import com.exception.CrimeNotFoundException;
 import com.exception.CriminalNotFoundException;
@@ -30,6 +33,8 @@ public class AdminUI {
 					+ "6. Remove criminal from crime\n"
 					+ "7. Delete crime\n"
 					+ "8. Delete criminal\n"
+					+ "9. Show all Crime list\n"
+					+ "10. Show all Criminal list\n"
 					+ "0. Exit");
 			
 			logger.printDebug("\nEnter Selection: ");
@@ -245,6 +250,45 @@ public class AdminUI {
 					}
 				}
 					
+					break;
+					
+				case 9:{
+					try {
+						List<CrimeDto> list = crimeDao.showAllCrime();
+						
+						System.out.println();
+						
+						for(CrimeDto c : list) {
+							System.out.println();
+							logger.printlnInfo(c.toString());
+						}
+						
+						System.out.println();
+					} catch (CrimeNotFoundException | SomeThingWentWrongException e) {
+						logger.printlnError(e.getMessage());
+					}
+				}
+					
+					break;
+					
+				case 10: {
+					try {
+						List<CriminalDto> list = criminalDao.showAllCriminal();
+						
+						System.out.println();
+						
+						for(CriminalDto c : list) {
+							System.out.println();
+							logger.printlnInfo(c.toString());
+						}
+						
+						System.out.println();
+					} catch (CriminalNotFoundException | SomeThingWentWrongException e) {
+						logger.printlnError(e.getMessage());
+					}
+					
+				} 
+				
 					break;
 					
 				case 0: 	break;

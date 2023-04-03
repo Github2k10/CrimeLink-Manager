@@ -13,6 +13,7 @@ import com.dto.CrimeDtoImp;
 import com.exception.CrimeNotFoundException;
 import com.exception.InvalidDataException;
 import com.exception.SomeThingWentWrongException;
+import com.ui.ColorLogger;
 
 public class CrimeDaoImp implements CrimeDao{
 	private boolean isResultSetEmpty(ResultSet set) throws SQLException {
@@ -24,9 +25,10 @@ public class CrimeDaoImp implements CrimeDao{
 	}
 	
 	private void showList(ResultSet set) throws SQLException {
+		ColorLogger logger = new ColorLogger();
 		System.out.println();
 		while(set.next()) {
-			System.out.println("Police Station: " + set.getString(1) + ", Total no. of crime: " + set.getInt(2));
+			logger.printlnInfo("Police Station: " + set.getString(1) + ", Total no. of crime: " + set.getInt(2));
 		}
 		
 		System.out.println();
@@ -224,6 +226,39 @@ public class CrimeDaoImp implements CrimeDao{
 			connection = ConnectToDatabase.makeConnection();
 			
 			String query = "select * from crime where description like '%"+ desc +"%'";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				throw new CrimeNotFoundException();
+			}
+			
+			list = getList(set);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SomeThingWentWrongException();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				throw new SomeThingWentWrongException();
+			}
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<CrimeDto> showAllCrime() throws CrimeNotFoundException, SomeThingWentWrongException{
+		Connection connection = null;
+		List<CrimeDto> list = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from crime";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
 			

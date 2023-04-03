@@ -29,7 +29,7 @@ public class MainUI {
 				break;
 				
 			case 2:
-				
+				PublicUI.publicLogin(scanner);
 				break;
 				
 			case 0:

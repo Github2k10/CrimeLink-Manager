@@ -15,4 +15,5 @@ public interface CrimeDao {
 	public void showTotalCrimeForEachPS(String start, String end) throws CrimeNotFoundException, SomeThingWentWrongException;
 	public void showTotalCrimeForTypeAndDateRange(String start, String end) throws  SomeThingWentWrongException, CrimeNotFoundException;
 	public List<CrimeDto> searchCrimeByDescription(String desc) throws CrimeNotFoundException, SomeThingWentWrongException;
+	public List<CrimeDto> showAllCrime() throws CrimeNotFoundException, SomeThingWentWrongException;
 }

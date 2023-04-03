@@ -91,7 +91,7 @@ public class CrimeDtoImp implements CrimeDto{
 
 	@Override
 	public String toString() {
-		return "Crime Crime id = " + crime_id + ", Description = " + desc + ", Victim name = " + victim_name + ", Polish Static area = "
+		return "Crime Crime id = " + crime_id + ", Description = " + desc + ", \nVictim name = " + victim_name + ", Polish Static area = "
 				+ ps_area + ", Date of crime = " + date + ", Crime Type = " + type;
 	}
 	

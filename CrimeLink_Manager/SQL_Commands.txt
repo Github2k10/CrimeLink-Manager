@@ -18,7 +18,7 @@ create table criminal (
     -> arrested_from_ps_area varchar(50) );
     
     
-mysql> create table link(
+mysql> create table offender(
     -> criminal_id int,
     -> crime_id int,
     -> primary key(criminal_id, crime_id),
