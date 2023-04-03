@@ -20,6 +20,14 @@ public class CrimeDtoImp implements CrimeDto{
 		this.date = date;
 		this.type = type;
 	}
+	
+	public CrimeDtoImp(String desc, String victim_name, String ps_area, Date date, String type) {
+		this.desc = desc;
+		this.victim_name = victim_name;
+		this.ps_area = ps_area;
+		this.date = date;
+		this.type = type;
+	}
 
 	@Override
 	public int getCrime_id() {
