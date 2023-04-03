@@ -241,5 +241,38 @@ public class CriminalDaoImp implements CriminalDao{
 		
 		return list;
 	}
+	
+	@Override
+	public List<CriminalDto> showAllCriminal() throws CriminalNotFoundException, SomeThingWentWrongException{
+		Connection connection = null;
+		List<CriminalDto> list = null;
+		
+		try {
+			connection = ConnectToDatabase.makeConnection();
+			
+			String query = "select * from criminal";
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if(isResultSetEmpty(set)) {
+				throw new CriminalNotFoundException();
+			}
+			
+			list = getList(set);
+			
+		} catch (SQLException e) {
+			throw new SomeThingWentWrongException();
+		} finally {
+			try {
+				ConnectToDatabase.closeConnection(connection);
+			} catch (SQLException e) {
+				throw new SomeThingWentWrongException();
+			}
+		}
+		
+		return list;
+	}
 
 }

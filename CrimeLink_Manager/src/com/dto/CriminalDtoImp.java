@@ -93,8 +93,8 @@ public class CriminalDtoImp implements CriminalDto{
 		@Override
 		public String toString() {
 			return "Criminal id = " + criminal_id + ", Name = " + name + ", Date of Birth = " + dob + ", Gender = "
-					+ gender + ", Identifying Mark = " + identifyingMark + ", Date of first Arrest = " + datefirstArrestDate
-					+ ", Arrested from polise station = " + arrestedPS;
+					+ gender + ", \nIdentifying Mark = " + identifyingMark + ", Date of first Arrest = " + datefirstArrestDate
+					+ ", \nArrested from polise station = " + arrestedPS;
 		}
 		
 		
