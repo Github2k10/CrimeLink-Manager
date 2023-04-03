@@ -1,5 +1,10 @@
 <a name="readme-top"></a> 
-<h1><img align="center" height="100" src="https://github.com/Github2k10/plucky-scent-2586/blob/main/handcuff.png">  CrimeLink Manager</h1>
+
+<p  align="center" >=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=</p>
+<h2 align="center" >     Welcome to Crime Information Management System</h2>
+<p  align="center" >=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=</p>
+
+<h1 align="center"><img align="center" height="100" src="https://github.com/Github2k10/plucky-scent-2586/blob/main/handcuff.png">  CrimeLink Manager</h1>
 
 <h2 align="center"></h2>
 <p align="center">The objective of this project is to maintain a record of all  the cyber-crime complaints reported by  the victims and provide a platform for the cyber-crime bureau/police department to provide necessary solution and help to all of these problems.</p>
