@@ -20,6 +20,13 @@
 </p>
 <br>
 
+
+## Work Flow of the Project
+<p>
+  <img height="500" src="https://github.com/Github2k10/plucky-scent-2586/blob/main/image-3.png">
+</p>
+<br>
+
 ## Tech Stacks
 * Java
 * JDBC
