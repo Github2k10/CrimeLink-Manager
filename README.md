@@ -1,8 +1,8 @@
 <a name="readme-top"></a> 
 
-<p  align="center" >=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=</p>
+<p  align="center" >=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=</p>
 <h2 align="center" >     Welcome to Crime Information Management System</h2>
-<p  align="center" >=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=</p>
+<p  align="center" >=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=</p>
 
 <h1 align="center"><img align="center" height="100" src="https://github.com/Github2k10/plucky-scent-2586/blob/main/handcuff.png">  CrimeLink Manager</h1>
 
